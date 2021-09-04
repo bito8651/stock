@@ -1,10 +1,11 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 def read_csv(file):
     # converters那邊是告訴它Adj Close那列我要讀取成float，否則它預設會是字串
-    df = pd.read_csv(file, converters={'Adj Close': float})
-    df = df['Adj Close']  # 我只要Adj Close那列的資料
+    df = pd.read_csv(file)
+    df = df['Adj Close'].astype('float')  # 我只要Adj Close那列的資料
     return df.tolist()  # 轉換為python內建的list物件
 
 
@@ -25,7 +26,7 @@ def three_days(data):
 def clac_profit(data, signal):
     pos = 0  # 持有方向
     entry = 0  # 進場價
-    total = 0  # 總共賺的錢
+    trades = 0  # 裝著每筆交易的損益
     for i in range(len(data)):
         if signal[i] == 1:
             if pos == 0:  # 表示目前沒有持股
